@@ -1,0 +1,55 @@
+name: Setup Development Environment
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: "The name of your new branch & coveo org"
+        required: true
+      email:
+        description: "Your email."
+        required: true
+jobs:
+  create-env:
+    runs-on: ubuntu-latest
+    env:
+      COVEO_MACHINE_USERNAME: ${{ secrets.COVEO_MACHINE_USERNAME }}
+      COVEO_MACHINE_PASSWORD: ${{ secrets.COVEO_MACHINE_PASSWORD }}
+      COVEO_PLATFORM_ENV: 'dev'
+      NAME: ${{inputs.NAME}}
+      EMAIL: ${{inputs.EMAIL}}
+    steps:
+      - name: Blur out email
+        run: echo "::add-mask::$EMAIL"
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: "npm"
+      - name: Install dependencies
+        run: npm ci
+      - name: Login to Coveo
+        env:
+          DISPLAY: ':1'
+        run: |
+          Xvfb $DISPLAY -screen 0 1024x768x16 & sleep 1
+          xdg-settings set default-web-browser google-chrome.desktop
+          mkdir -p scripts/artifacts/screenshots
+          npm run login
+      - name: Create Organization
+        run: npx @coveo/cli org:create $NAME -s
+      - name: Deploy resources on Organization
+        run: npx @coveo/cli org:resources:push -s
+      - name: Add User to Organization
+        run: npm run add-user
+      - name: Create dev branch
+        run: |
+          git config --global user.email action@github.com
+          git config --global user.name "GitHub Action"
+          git checkout -b "dev/$NAME"
+          git commit -m "setup $NAME branch [skip CI]" --allow-empty
+          git push --set-upstream origin "dev/$NAME"
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: artifacts
+          path: ./scripts/artifacts
