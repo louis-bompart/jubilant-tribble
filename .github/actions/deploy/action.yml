@@ -1,0 +1,21 @@
+name: "Login"
+description: "Login to Coveo"
+
+inputs:
+  api-key:
+    required: true
+    description: "API Key"
+  environment:
+    required: true
+    description: "Platform Environment"
+
+runs:
+  using: composite
+  steps:
+      - run: npm ci
+        shell: bash
+      - run: npx @coveo/cli auth:token -e ${{ inputs.environment }} -t ${{ inputs.api-key }}
+        shell: bash
+      - run: npx @coveo/cli org:resources:push -s
+        shell: bash
+
