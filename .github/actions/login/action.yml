@@ -1,0 +1,28 @@
+name: "Login"
+description: "Login to Coveo"
+
+inputs:
+  username:
+    required: true
+    description: "Username"
+  password:
+    required: true
+    description: "Password"
+  environment:
+    required: true
+    description: "Platform Environment to logon to"
+
+runs:
+  using: composite
+  steps:
+    - run: |
+        Xvfb $DISPLAY -screen 0 1024x768x16 & sleep 1
+        xdg-settings set default-web-browser google-chrome.desktop
+        mkdir -p scripts/artifacts/screenshots
+        npm run login
+      shell: bash
+      env:
+        DISPLAY: ':1'
+        COVEO_MACHINE_USERNAME: ${{ inputs.username }}
+        COVEO_MACHINE_PASSWORD: ${{ inputs.password }}
+        COVEO_PLATFORM_ENV:     ${{ inputs.environment }}

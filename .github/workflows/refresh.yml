@@ -5,8 +5,6 @@ jobs:
   refresh:
     runs-on: ubuntu-latest
     env:
-      COVEO_MACHINE_USERNAME: ${{ secrets.COVEO_MACHINE_USERNAME }}
-      COVEO_MACHINE_PASSWORD: ${{ secrets.COVEO_MACHINE_PASSWORD }}
       COVEO_PLATFORM_ENV: 'stg'
     steps:
       - uses: actions/checkout@v3
@@ -28,13 +26,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Login to Coveo
-        env:
-          DISPLAY: ':1'
-        run: |
-          Xvfb $DISPLAY -screen 0 1024x768x16 & sleep 1
-          xdg-settings set default-web-browser google-chrome.desktop
-          mkdir -p scripts/artifacts/screenshots
-          npm run login
+        uses: ./.github/actions/login
+        with:
+          username: ${{ secrets.COVEO_MACHINE_USERNAME }}
+          password: ${{ secrets.COVEO_MACHINE_PASSWORD }}
+          env: $COVEO_PLATFORM_ENV
       - name: Pull Org Content
         run: npx @coveo/cli org:resources:pull -o ${{ steps.org-id.outputs.group1 }} -f
       - name: Commit & Push update
