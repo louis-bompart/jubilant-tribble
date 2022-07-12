@@ -14,7 +14,7 @@ jobs:
     env:
       COVEO_MACHINE_USERNAME: ${{ secrets.COVEO_MACHINE_USERNAME }}
       COVEO_MACHINE_PASSWORD: ${{ secrets.COVEO_MACHINE_PASSWORD }}
-      COVEO_PLATFORM_ENV: 'dev'
+      COVEO_PLATFORM_ENV: 'stg'
       NAME: ${{inputs.NAME}}
       EMAIL: ${{inputs.EMAIL}}
     steps:
