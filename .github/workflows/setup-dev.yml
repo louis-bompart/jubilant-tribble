@@ -39,14 +39,14 @@ jobs:
         run: npx @coveo/cli org:create $NAME -s
       - name: Deploy resources on Organization
         run: npx @coveo/cli org:resources:push -s
-      - name: Add User to Organization
+      - name: Add User to Organization & Get Org ID
         run: npm run add-user
       - name: Create dev branch
         run: |
           git config --global user.email action@github.com
           git config --global user.name "GitHub Action"
           git checkout -b "dev/$NAME"
-          git commit -m "setup $NAME branch [skip CI]" --allow-empty
+          git commit -m "setup "$ORG_ID" branch [skip CI]" --allow-empty
           git push --set-upstream origin "dev/$NAME"
       - uses: actions/upload-artifact@v3
         if: always()
