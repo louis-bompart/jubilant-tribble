@@ -1,0 +1,42 @@
+name: Refresh Branch
+on:
+  workflow_dispatch:
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    env:
+      COVEO_MACHINE_USERNAME: ${{ secrets.COVEO_MACHINE_USERNAME }}
+      COVEO_MACHINE_PASSWORD: ${{ secrets.COVEO_MACHINE_PASSWORD }}
+      COVEO_PLATFORM_ENV: 'stg'
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions-ecosystem/action-regex-match@v2
+        name: Get Org ID
+        id: org-id-extractor
+        with:
+          text: $(git log main..$GITHUB_REF_NAME --oneline | tail -1)
+          regex: '^\w{7} setup (\w*) branch \[skip CI\]$'
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: "npm"
+      - name: Install dependencies
+        run: npm ci
+      - name: Login to Coveo
+        env:
+          DISPLAY: ':1'
+        run: |
+          Xvfb $DISPLAY -screen 0 1024x768x16 & sleep 1
+          xdg-settings set default-web-browser google-chrome.desktop
+          mkdir -p scripts/artifacts/screenshots
+          npm run login
+      - name: Pull Org Content
+        run: npx run @coveo/cli org:resources:pull -o ${{ steps.org-id-extractor-outputs.group1 }}
+      - name: Commit & Push update
+        run: |
+          git config --global user.email action@github.com
+          git config --global user.name "GitHub Action"
+          git commit -m "update "$ORG_ID" branch [skip CI]" 
+          git push
