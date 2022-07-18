@@ -32,7 +32,7 @@ jobs:
         with:
           username: ${{ secrets.COVEO_MACHINE_USERNAME }}
           password: ${{ secrets.COVEO_MACHINE_PASSWORD }}
-          env: $COVEO_PLATFORM_ENV
+          environment: $COVEO_PLATFORM_ENV
       - name: Create Organization
         run: npx @coveo/cli org:create $NAME -s
       - name: Deploy resources on Organization
