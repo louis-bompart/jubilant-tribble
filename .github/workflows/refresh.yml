@@ -5,6 +5,8 @@ jobs:
   refresh:
     runs-on: ubuntu-latest
     env:
+      COVEO_MACHINE_USERNAME: ${{ secrets.COVEO_MACHINE_USERNAME }}
+      COVEO_MACHINE_PASSWORD: ${{ secrets.COVEO_MACHINE_PASSWORD }}
       COVEO_PLATFORM_ENV: 'stg'
     steps:
       - uses: actions/checkout@v3
