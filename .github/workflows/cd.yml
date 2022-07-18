@@ -18,7 +18,7 @@ jobs:
       - name: Deploy to Staging
         uses: ./.github/actions/deploy
         with:
-          environment: $COVEO_PLATFORM_ENV
+          environment: ${{ env.COVEO_PLATFORM_ENV }}
           api-key: ${{ secrets.COVEO_API_KEY }}
   prod-deploy:
     needs: qa-deploy
@@ -33,5 +33,5 @@ jobs:
       - name: Deploy to Production
         uses: ./.github/actions/deploy
         with:
-          environment: $COVEO_PLATFORM_ENV
+          environment: ${{ env.COVEO_PLATFORM_ENV }}
           api-key: ${{ secrets.COVEO_API_KEY }}

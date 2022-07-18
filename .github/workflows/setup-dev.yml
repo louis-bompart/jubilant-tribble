@@ -30,9 +30,9 @@ jobs:
       - name: Login to Coveo
         uses: ./.github/actions/login
         with:
-          username: ${{ secrets.COVEO_MACHINE_USERNAME }}
-          password: ${{ secrets.COVEO_MACHINE_PASSWORD }}
-          environment: $COVEO_PLATFORM_ENV
+          username: ${{ env.COVEO_MACHINE_USERNAME }}
+          password: ${{ env.COVEO_MACHINE_PASSWORD }}
+          environment: ${{ env.COVEO_PLATFORM_ENV }}
       - name: Create Organization
         run: npx @coveo/cli org:create $NAME -s
       - name: Deploy resources on Organization

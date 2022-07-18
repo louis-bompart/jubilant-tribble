@@ -28,9 +28,9 @@ jobs:
       - name: Login to Coveo
         uses: ./.github/actions/login
         with:
-          username: ${{ secrets.COVEO_MACHINE_USERNAME }}
-          password: ${{ secrets.COVEO_MACHINE_PASSWORD }}
-          env: $COVEO_PLATFORM_ENV
+          username: ${{ env.COVEO_MACHINE_USERNAME }}
+          password: ${{ env.COVEO_MACHINE_PASSWORD }}
+          environment: ${{ env.COVEO_PLATFORM_ENV }}
       - name: Pull Org Content
         run: npx @coveo/cli org:resources:pull -o ${{ steps.org-id.outputs.group1 }} -f
       - name: Commit & Push update

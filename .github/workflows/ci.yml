@@ -18,5 +18,5 @@ jobs:
       - name: Preview Changes
         uses: ./.github/actions/deploy
         with:
-          environment: $COVEO_PLATFORM_ENV
+          environment: ${{ env.COVEO_PLATFORM_ENV }}
           api-key: ${{ secrets.COVEO_API_KEY }}
