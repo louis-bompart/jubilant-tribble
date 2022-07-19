@@ -32,6 +32,8 @@ jobs:
           environment: ${{ env.COVEO_PLATFORM_ENV }}
       - name: Create Organization
         run: npx @coveo/cli org:create $NAME -s
+        env:
+          NAME: ${{steps.issue-data.outputs.orgname}}
       - name: Deploy resources on Organization
         run: npx @coveo/cli org:resources:push -s
       - name: Add User to Organization & Get Org ID
@@ -52,10 +54,10 @@ jobs:
         run: npm run answer-issue
         env:
           NAME: ${{steps.issue-data.outputs.orgname}}
-          GHAPP_APP_ID: ${{ secrets.GHAPP_APP_ID }}
-          GHAPP_PRIVATE_KEY: ${{ secrets.GHAPP_PRIVATE_KEY }}
-          GHAPP_CLIENT_ID: ${{ secrets.GHAPP_CLIENT_ID }}
-          GHAPP_CLIENT_SECRET: ${{ secrets.GHAPP_CLIENT_SECRET }}
+          GHAPP_APP_ID: ${{ secrets.GHAPP_APP_ID }} #
+          GHAPP_PRIVATE_KEY: ${{ secrets.GHAPP_PRIVATE_KEY }} #
+          GHAPP_CLIENT_ID: ${{ secrets.GHAPP_CLIENT_ID }} #
+          GHAPP_CLIENT_SECRET: ${{ secrets.GHAPP_CLIENT_SECRET }} #
           GHAPP_INSTALLATION_ID: ${{ secrets.GHAPP_INSTALLATION_ID }}
       - uses: actions/upload-artifact@v3
         if: always()
