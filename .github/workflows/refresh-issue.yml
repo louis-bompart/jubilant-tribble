@@ -1,0 +1,67 @@
+name: Refresh Branch From Issue
+on:
+  issue_comment:
+    types:
+      - edited
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    env:
+      COVEO_MACHINE_USERNAME: ${{ secrets.COVEO_MACHINE_USERNAME }}
+      COVEO_MACHINE_PASSWORD: ${{ secrets.COVEO_MACHINE_PASSWORD }}
+      COVEO_PLATFORM_ENV: 'stg'
+    steps:
+      - name: Dump GitHub context
+        id: github_context_step
+        run: echo '${{ toJSON(github) }}'
+      - name: Dump job context
+        run: echo '${{ toJSON(job) }}'
+      - name: Dump steps context
+        run: echo '${{ toJSON(steps) }}'
+      - name: Dump runner context
+        run: echo '${{ toJSON(runner) }}'
+      - name: Dump strategy context
+        run: echo '${{ toJSON(strategy) }}'
+      - name: Dump matrix context
+        run: echo '${{ toJSON(matrix) }}'
+      # - uses: actions/checkout@v3
+      #   with:
+      #     fetch-depth: 0
+      # - name: Check comment owner & extract branch name
+      # - name: Get first commit
+      #   id: first-commit
+      #   run: echo "::set-output name=first_commit::$(git log origin/main..$GITHUB_REF_NAME --oneline | tail -1)"
+      # - uses: actions-ecosystem/action-regex-match@v2
+      #   name: Get Org ID
+      #   id: org-id
+      #   with:
+      #     text: ${{ steps.first-commit.outputs.first_commit }}
+      #     regex: '^\w{7} setup (\w*) branch \[skip CI\]$'
+      # - uses: actions/setup-node@v3
+      #   with:
+      #     node-version: 16
+      #     cache: "npm"
+      # - name: Install dependencies
+      #   run: npm ci
+      # - name: Login to Coveo
+      #   uses: ./.github/actions/login
+      #   with:
+      #     username: ${{ env.COVEO_MACHINE_USERNAME }}
+      #     password: ${{ env.COVEO_MACHINE_PASSWORD }}
+      #     environment: ${{ env.COVEO_PLATFORM_ENV }}
+      # - name: Pull Org Content
+      #   run: npx @coveo/cli org:resources:pull -o ${{ steps.org-id.outputs.group1 }} -f
+      # - name: Commit & Push update
+      #   run: |
+      #     git config --global user.email action@github.com
+      #     git config --global user.name "GitHub Action"
+      #     git add .
+      #     git commit -m "update "$ORG_ID" branch [skip CI]" 
+      #     git push
+      # - name: Update comment
+      #   if: always()
+        
+          git push
+      - name: Update comment
+        if: always()
+        
