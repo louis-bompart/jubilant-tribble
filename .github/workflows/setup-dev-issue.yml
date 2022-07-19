@@ -1,8 +1,8 @@
-name: Setup Development Environment From Discussion
+name: Setup Development Environment From Issue
 on:
-  discussion:
+  issues:
     types:
-      - created
+      - opened
 jobs:
   create-env-discussion:
     runs-on: ubuntu-latest
