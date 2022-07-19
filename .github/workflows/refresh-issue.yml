@@ -47,7 +47,7 @@ jobs:
           git config --global user.email action@github.com
           git config --global user.name "GitHub Action"
           git add .
-          git commit -m "update "$ORG_ID" branch [skip CI]" 
+          git commit -m "update  ${{ steps.org-id.outputs.group1 }} branch" 
           git push
       - name: Update comment
         if: always()
