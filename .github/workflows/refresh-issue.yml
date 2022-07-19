@@ -24,9 +24,11 @@ jobs:
         run: echo '${{ toJSON(strategy) }}'
       - name: Dump matrix context
         run: echo '${{ toJSON(matrix) }}'
-      # - uses: actions/checkout@v3
-      #   with:
-      #     fetch-depth: 0
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - run: npm ci
+      - run: npm run check-comment
       # - name: Check comment owner & extract branch name
       # - name: Get first commit
       #   id: first-commit

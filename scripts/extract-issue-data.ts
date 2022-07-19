@@ -6,4 +6,4 @@ const issueDataExtractorRegexp = /###\sBranch\/Org name\s+(?<orgname>.*)\s+### E
 const match = issueDataExtractorRegexp.exec(context.payload.issue.body);
 console.log(match)
 setOutput('email',match.groups.email);
-setOutput('orgname',match.groups.orgname);
+setOutput('orgname',match.groups.orgname.toLowerCase());
