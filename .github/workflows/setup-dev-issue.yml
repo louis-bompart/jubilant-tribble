@@ -6,57 +6,49 @@ on:
 jobs:
   create-env-discussion:
     runs-on: ubuntu-latest
+    env:
+      COVEO_MACHINE_USERNAME: ${{ secrets.COVEO_MACHINE_USERNAME }}
+      COVEO_MACHINE_PASSWORD: ${{ secrets.COVEO_MACHINE_PASSWORD }}
+      COVEO_PLATFORM_ENV: 'stg'
     steps:
-      - name: Dump GitHub context
-        id: github_context_step
-        run: echo '${{ toJSON(github) }}'
-      - name: Dump job context
-        run: echo '${{ toJSON(job) }}'
-      - name: Dump steps context
-        run: echo '${{ toJSON(steps) }}'
-      - name: Dump runner context
-        run: echo '${{ toJSON(runner) }}'
-      - name: Dump strategy context
-        run: echo '${{ toJSON(strategy) }}'
-      - name: Dump matrix context
-        run: echo '${{ toJSON(matrix) }}'
-    # env:
-    #   COVEO_MACHINE_USERNAME: ${{ secrets.COVEO_MACHINE_USERNAME }}
-    #   COVEO_MACHINE_PASSWORD: ${{ secrets.COVEO_MACHINE_PASSWORD }}
-    #   COVEO_PLATFORM_ENV: 'stg'
-    #   NAME: ${{inputs.NAME}}
-    #   EMAIL: ${{inputs.EMAIL}}
-    # steps:
-    #   - name: Blur out email
-    #     run: echo "::add-mask::$EMAIL"
-    #   - uses: actions/checkout@v3
-    #   - uses: actions/setup-node@v3
-    #     with:
-    #       node-version: 16
-    #       cache: "npm"
-    #   - name: Install dependencies
-    #     run: npm ci
-    #   - name: Login to Coveo
-    #     uses: ./.github/actions/login
-    #     with:
-    #       username: ${{ env.COVEO_MACHINE_USERNAME }}
-    #       password: ${{ env.COVEO_MACHINE_PASSWORD }}
-    #       environment: ${{ env.COVEO_PLATFORM_ENV }}
-    #   - name: Create Organization
-    #     run: npx @coveo/cli org:create $NAME -s
-    #   - name: Deploy resources on Organization
-    #     run: npx @coveo/cli org:resources:push -s
-    #   - name: Add User to Organization & Get Org ID
-    #     run: npm run add-user
-    #   - name: Create dev branch
-    #     run: |
-    #       git config --global user.email action@github.com
-    #       git config --global user.name "GitHub Action"
-    #       git checkout -b "dev/$NAME"
-    #       git commit -m "setup "$ORG_ID" branch [skip CI]" --allow-empty
-    #       git push --set-upstream origin "dev/$NAME"
-    #   - uses: actions/upload-artifact@v3
-    #     if: always()
-    #     with:
-    #       name: artifacts
-    #       path: ./scripts/artifacts
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: "npm"
+      - name: Install dependencies
+        run: npm ci
+      - name: Verify author
+        run: npm run check-user
+      - name: Extract org name & email from issue description
+        id: issue-data
+        run: npm run extract-data
+      - name: Login to Coveo
+        uses: ./.github/actions/login
+        with:
+          username: ${{ env.COVEO_MACHINE_USERNAME }}
+          password: ${{ env.COVEO_MACHINE_PASSWORD }}
+          environment: ${{ env.COVEO_PLATFORM_ENV }}
+      - name: Create Organization
+        run: npx @coveo/cli org:create $NAME -s
+      - name: Deploy resources on Organization
+        run: npx @coveo/cli org:resources:push -s
+      - name: Add User to Organization & Get Org ID
+        run: npm run add-user
+        env:
+          NAME: ${{steps.issue-data.outputs.orgname}}
+          EMAIL: ${{steps.issue-data.outputs.email}}
+      - name: Create dev branch
+        env:
+          NAME: ${{steps.issue-data.outputs.orgname}}
+        run: |
+          git config --global user.email action@github.com
+          git config --global user.name "GitHub Action"
+          git checkout -b "dev/$NAME"
+          git commit -m "setup "$ORG_ID" branch [skip CI]" --allow-empty
+          git push --set-upstream origin "dev/$NAME"
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: artifacts
+          path: ./scripts/artifacts

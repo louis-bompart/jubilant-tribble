@@ -6,7 +6,9 @@
   "main": "index.js",
   "scripts": {
     "login": "ts-node scripts/login.ts",
-    "add-user": "ts-node scripts/add-user.ts"
+    "add-user": "ts-node scripts/add-user.ts",
+    "check-user": "ts-node scripts/check-user.ts",
+    "extract-data": "ts-node scripts/extract-issue-data.ts"
   },
   "keywords": [],
   "author": "Louis Bompart <lbompart@coveo.com>",
