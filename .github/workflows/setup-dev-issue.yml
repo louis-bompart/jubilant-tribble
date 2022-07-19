@@ -1,4 +1,4 @@
-name: Setup Development Environment From Issue
+name: Setup Development Environment
 on:
   issues:
     types:

@@ -1,4 +1,4 @@
-name: Refresh Branch From Issue
+name: Refresh Branch
 on:
   issue_comment:
     types:
