@@ -25,7 +25,7 @@ Also, an invitation to an organization 'linked' to this branch has been sent to 
 
 - [ ] 👈Check that box to refresh your development branch with the content of the linked organization, and click on the button below to open a PR
 
- [![PRStart](https://raw.githubusercontent.com/louis-bompart/jubilant-tribble/main/.github/assets/PRButton.gif)](https://github.com/${context.repo.owner}/${context.repo.repo}/pull/new/dev/dev/${process.env.NAME})
+ [![PRStart](https://raw.githubusercontent.com/louis-bompart/jubilant-tribble/main/.github/assets/PRButton.gif)](https://github.com/${context.repo.owner}/${context.repo.repo}/pull/new/dev/${process.env.NAME})
 
 `;
 
