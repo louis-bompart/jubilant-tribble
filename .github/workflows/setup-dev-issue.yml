@@ -10,6 +10,7 @@ jobs:
       COVEO_MACHINE_USERNAME: ${{ secrets.COVEO_MACHINE_USERNAME }}
       COVEO_MACHINE_PASSWORD: ${{ secrets.COVEO_MACHINE_PASSWORD }}
       COVEO_PLATFORM_ENV: 'stg'
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
