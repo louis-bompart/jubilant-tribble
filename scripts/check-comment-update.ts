@@ -10,6 +10,6 @@ const after = context.payload.comment.body.split("[x]");
 assert.equal(before[0], after[0]);
 assert.equal(before[1], after[1]);
 // Whats the branch?
-const branchname = /https\:\/\/github.com\/.*\/.*\/tree\/(?<branchname> .*)\s/.exec(context.payload.comment.body).groups.branchname
+const branchname = /https\:\/\/github\.com\/.*\/.*\/tree\/(?<branchname>.*)\s/.exec(context.payload.comment.body).groups.branchname
 setOutput('branchname',branchname);
 
