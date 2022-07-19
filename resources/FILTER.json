@@ -1,0 +1,30 @@
+{
+	"metadata": {
+		"schemaVersion": "v1"
+	},
+	"resources": {
+		"FILTER": [
+			{
+				"model": {
+					"childrenCount": 0,
+					"condition": {},
+					"definition": "filter q `@author==\"Martin Laporte\"`",
+					"description": "",
+					"detailed": {
+						"expressions": [
+							"@author==\"Martin Laporte\""
+						]
+					},
+					"feature": "filter",
+					"parent": {},
+					"position": 1,
+					"ready": false
+				},
+				"parents": {
+					"queryPipelineId": "{{ QUERY_PIPELINE.default_iRPpj1 }}"
+				},
+				"resourceName": "filter_q_`@author==Martin_Laporte`_djkq3H"
+			}
+		]
+	}
+}

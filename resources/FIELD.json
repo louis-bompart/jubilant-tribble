@@ -917,6 +917,32 @@
 			{
 				"model": {
 					"dateFormat": "",
+					"description": "The document is sampled for metadata discovery.",
+					"facet": false,
+					"hierarchicalFacet": false,
+					"includeInQuery": true,
+					"includeInResults": true,
+					"keepAccentsDisplayValueFacet": false,
+					"mergeWithLexicon": false,
+					"multiValueFacet": false,
+					"multiValueFacetTokenizers": ";",
+					"name": "metadatasampling",
+					"ranking": false,
+					"smartDateFacet": false,
+					"sort": false,
+					"stemming": false,
+					"type": "STRING",
+					"useCacheForComputedFacet": false,
+					"useCacheForNestedQuery": false,
+					"useCacheForNumericQuery": false,
+					"useCacheForSort": false
+				},
+				"parents": {},
+				"resourceName": "metadatasampling_RulyvM"
+			},
+			{
+				"model": {
+					"dateFormat": "",
 					"description": "",
 					"facet": false,
 					"hierarchicalFacet": false,
