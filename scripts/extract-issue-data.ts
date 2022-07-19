@@ -1,8 +1,8 @@
 import { context } from "@actions/github";
 import { setOutput } from "@actions/core";
 
-const issueDataExtractorRegexp = /###\sBranch\/Org name\n\n(?<orgname>.*)### Email\n\n(?<email>.*)/gm;
-console.log(context.payload.issue.body)
+const issueDataExtractorRegexp = /###\sBranch\/Org name\s+(?<orgname>.*)### Email\s+(?<email>.*)/gm;
+console.log(Buffer.from(context.payload.issue.body, 'utf-8').toString('base64'))
 const match = context.payload.issue.body.match(issueDataExtractorRegexp);
 
 setOutput('email',match.groups.email);
