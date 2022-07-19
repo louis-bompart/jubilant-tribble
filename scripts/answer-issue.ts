@@ -24,6 +24,9 @@ Also, an invitation to a organization 'linked' to this branch has been sent to t
 ----
 
  - [ ] Check this box to refresh your development branch with the content of the linked organization
+
+ [![PRStart](https://raw.githubusercontent.com/louis-bompart/jubilant-tribble/main/.github/assets/PRButton.gif)](https://github.com/${context.repo.owner}/${context.repo.repo}/pull/new/dev/dev/${process.env.NAME})
+
 `;
 
   await octokit.rest.issues.createComment({
