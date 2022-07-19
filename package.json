@@ -10,7 +10,8 @@
     "check-user": "ts-node scripts/check-user.ts",
     "extract-data": "ts-node scripts/extract-issue-data.ts",
     "answer-issue": "ts-node scripts/answer-issue.ts",
-    "check-comment": "ts-node scripts/check-comment-update.ts"
+    "check-comment": "ts-node scripts/check-comment-update.ts",
+    "update-comment": "ts-node scripts/update-update.ts"
   },
   "keywords": [],
   "author": "Louis Bompart <lbompart@coveo.com>",
